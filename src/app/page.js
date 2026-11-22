@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Calendar, Clock, Pin, X, Cpu, Cloud, Code, Trophy, Shield, FlaskConical, Palette } from 'lucide-react';
 import { VERTICALS, MILESTONES, EVENTS, CATEGORIES, COLORS } from '../data/gdgData';
+import MemberPass from '../components/MemberPass';
+import { buildGoogleCalendarUrl } from '../utils/calendar';
 
 const Pill = ({ color, children }) => (
   <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-900/70 px-2.5 py-0.5 text-xs font-medium text-slate-700 dark:text-slate-300">
@@ -25,6 +27,7 @@ const ICONS = {
 
 export default function Home() {
   const [modalEvent, setModalEvent] = useState(null);
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const featured = EVENTS.find((e) => e.t === 'TechTank') || EVENTS[4] || EVENTS[0];
 
   useEffect(() => {
@@ -34,10 +37,22 @@ export default function Home() {
     return () => window.removeEventListener('keydown', onKey);
   }, [modalEvent]);
 
+  const handleHeroMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMouse({
+      x: ((e.clientX - rect.left) / rect.width - 0.5) * 24,
+      y: ((e.clientY - rect.top) / rect.height - 0.5) * 24,
+    });
+  };
+
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section
+        className="relative overflow-hidden"
+        onMouseMove={handleHeroMove}
+        onMouseLeave={() => setMouse({ x: 0, y: 0 })}
+      >
         <div className="grid md:grid-cols-2 gap-10 items-center py-12 md:py-20">
           <div>
             <Pill color={COLORS.g}>Open community · RV College of Engineering</Pill>
@@ -69,13 +84,28 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Exact 5-shape floating composition from Claude */}
+          {/* Interactive Mouse-Reactive 5-Shape Composition */}
           <div className="relative h-64 sm:h-80" aria-hidden="true">
-            <div className="fl absolute left-[8%] top-[8%] w-32 h-32 sm:w-44 sm:h-44 rounded-full" style={{ background: COLORS.b }} />
-            <div className="fl absolute right-[10%] top-[2%] w-24 h-24 sm:w-32 sm:h-32 rounded-2xl" style={{ background: COLORS.r, '--r': '12deg', animationDelay: '-2s' }} />
-            <div className="fl absolute left-[34%] bottom-[6%] w-28 h-28 sm:w-36 sm:h-36" style={{ background: COLORS.y, clipPath: 'polygon(50% 0,100% 100%,0 100%)', animationDelay: '-4s' }} />
-            <div className="fl absolute right-[8%] bottom-[14%] w-36 h-14 sm:w-48 sm:h-16 rounded-full" style={{ background: COLORS.g, '--r': '-14deg', animationDelay: '-1s' }} />
-            <div className="absolute left-[2%] bottom-[18%] w-16 h-16 rounded-full border-4 border-dashed border-slate-400 dark:border-slate-600" />
+            <div
+              className="fl absolute left-[8%] top-[8%] w-32 h-32 sm:w-44 sm:h-44 rounded-full transition-transform duration-200 ease-out"
+              style={{ background: COLORS.b, transform: `translate(${mouse.x * 0.8}px, ${mouse.y * 0.8}px)` }}
+            />
+            <div
+              className="fl absolute right-[10%] top-[2%] w-24 h-24 sm:w-32 sm:h-32 rounded-2xl transition-transform duration-200 ease-out"
+              style={{ background: COLORS.r, '--r': '12deg', animationDelay: '-2s', transform: `translate(${-mouse.x * 1.1}px, ${mouse.y * 0.9}px)` }}
+            />
+            <div
+              className="fl absolute left-[34%] bottom-[6%] w-28 h-28 sm:w-36 sm:h-36 transition-transform duration-200 ease-out"
+              style={{ background: COLORS.y, clipPath: 'polygon(50% 0,100% 100%,0 100%)', animationDelay: '-4s', transform: `translate(${mouse.x * 1.2}px, ${-mouse.y * 1.1}px)` }}
+            />
+            <div
+              className="fl absolute right-[8%] bottom-[14%] w-36 h-14 sm:w-48 sm:h-16 rounded-full transition-transform duration-200 ease-out"
+              style={{ background: COLORS.g, '--r': '-14deg', animationDelay: '-1s', transform: `translate(${-mouse.x * 0.9}px, ${-mouse.y * 0.8}px)` }}
+            />
+            <div
+              className="absolute left-[2%] bottom-[18%] w-16 h-16 rounded-full border-4 border-dashed border-slate-400 dark:border-slate-600 transition-transform duration-200 ease-out"
+              style={{ transform: `translate(${mouse.x * 0.5}px, ${mouse.y * 0.5}px)` }}
+            />
           </div>
         </div>
       </section>
@@ -148,6 +178,9 @@ export default function Home() {
         </section>
       )}
 
+      {/* Interactive 3D Developer Pass */}
+      <MemberPass />
+
       {/* Milestones */}
       <section className="mt-16 mb-4">
         <h2 className="text-2xl sm:text-3xl font-bold">Milestones</h2>
@@ -209,12 +242,13 @@ export default function Home() {
                 ))}
               </div>
               <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
+                href={buildGoogleCalendarUrl(modalEvent)}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="mt-7 flex items-center justify-center gap-2 rounded-full py-3 font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg"
                 style={{ background: COLORS.b }}
               >
-                {modalEvent.up ? 'RSVP: register now' : 'View recap'} <ArrowRight className="w-4 h-4" />
+                {modalEvent.up ? 'Add to Google Calendar' : 'Save Event to Calendar'} <ArrowRight className="w-4 h-4" />
               </a>
             </div>
           </div>

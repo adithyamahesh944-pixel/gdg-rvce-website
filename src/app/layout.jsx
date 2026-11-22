@@ -2,6 +2,7 @@ import './globals.css';
 import { Space_Grotesk } from 'next/font/google';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import CommandPalette from '../components/CommandPalette';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6">{children}</main>
         <Footer />
+        <CommandPalette />
       </body>
     </html>
   );
