@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Calendar, ArrowRight, X, Clock, Pin } from 'lucide-react';
 import { EVENTS, CATEGORIES, COLORS } from '../../data/gdgData';
+import { buildGoogleCalendarUrl } from '../../utils/calendar';
 
 const Pill = ({ color, children }) => (
   <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-900/70 px-2.5 py-0.5 text-xs font-medium text-slate-700 dark:text-slate-300">
@@ -15,8 +16,8 @@ const Chip = ({ active, onClick, children }) => (
     onClick={onClick}
     aria-pressed={active}
     className={`rounded-full border px-4 py-1.5 text-sm font-medium transition hover:-translate-y-0.5 ${active
-        ? 'bg-slate-900 text-white border-slate-900 dark:bg-white dark:text-slate-900 dark:border-white'
-        : 'border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-900/60 hover:border-slate-500'
+      ? 'bg-slate-900 text-white border-slate-900 dark:bg-white dark:text-slate-900 dark:border-white'
+      : 'border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-900/60 hover:border-slate-500'
       }`}
   >
     {children}
@@ -185,12 +186,13 @@ export default function EventsPage() {
                 ))}
               </div>
               <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
+                href={buildGoogleCalendarUrl(modal)}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="mt-7 flex items-center justify-center gap-2 rounded-full py-3 font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg"
                 style={{ background: COLORS.b }}
               >
-                {modal.up ? 'RSVP: register now' : 'View recap'} <ArrowRight className="w-4 h-4" />
+                {modal.up ? 'Add to Google Calendar' : 'Save Event to Calendar'} <ArrowRight className="w-4 h-4" />
               </a>
             </div>
           </div>

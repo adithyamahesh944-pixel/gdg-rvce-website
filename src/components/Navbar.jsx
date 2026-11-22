@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, Search } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
@@ -14,6 +14,10 @@ export default function Navbar() {
     const initDark = stored ? stored === 'dark' : prefers;
     setDark(initDark);
     document.documentElement.classList.toggle('dark', initDark);
+
+    const onExternalToggle = () => setDark((prev) => !prev);
+    window.addEventListener('gdg-toggle-theme', onExternalToggle);
+    return () => window.removeEventListener('gdg-toggle-theme', onExternalToggle);
   }, []);
 
   useEffect(() => {
@@ -30,7 +34,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800 bg-white/85 dark:bg-slate-950/85 backdrop-blur">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3 flex-wrap">
-        <Link href="/" className="flex items-center gap-2.5" aria-label="GDG on Campus RVCE (placeholder logo)">
+        <Link href="/" className="flex items-center gap-2.5" aria-label="GDG on Campus RVCE">
           <span className="flex gap-0.5">
             {['#4285F4', '#EA4335', '#FBBC05', '#34A853'].map((c) => (
               <i key={c} className="w-2.5 h-5 rounded-full first:-rotate-12 last:rotate-12" style={{ background: c }} />
@@ -51,8 +55,8 @@ export default function Navbar() {
                 href={item.href}
                 aria-current={active ? 'page' : undefined}
                 className={`flex-1 sm:flex-none text-center rounded-full px-5 py-1.5 text-sm font-semibold transition ${active
-                    ? 'bg-white dark:bg-slate-700 shadow'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  ? 'bg-white dark:bg-slate-700 shadow'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
               >
                 {item.label}
@@ -61,13 +65,27 @@ export default function Navbar() {
           })}
         </nav>
 
-        <button
-          onClick={() => setDark(!dark)}
-          aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
-          className="order-2 sm:order-3 p-2.5 rounded-full border border-slate-300 dark:border-slate-700 transition hover:rotate-12"
-        >
-          {dark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-        </button>
+        <div className="order-2 sm:order-3 flex items-center gap-2">
+          <button
+            onClick={() => window.dispatchEvent(new Event('gdg-open-palette'))}
+            aria-label="Open quick search"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-300 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-900/80 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 transition hover:border-slate-500"
+          >
+            <Search className="w-3.5 h-3.5" />
+            <span className="hidden md:inline">Search</span>
+            <kbd className="rounded bg-white dark:bg-slate-800 px-1.5 py-0.5 text-[10px] font-semibold border border-slate-200 dark:border-slate-700">
+              Ctrl K
+            </kbd>
+          </button>
+
+          <button
+            onClick={() => setDark(!dark)}
+            aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+            className="p-2.5 rounded-full border border-slate-300 dark:border-slate-700 transition hover:rotate-12"
+          >
+            {dark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
+        </div>
       </div>
     </header>
   );
