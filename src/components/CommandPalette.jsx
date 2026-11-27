@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Home, Calendar, Users, Sparkles, SunMoon, Check, Copy, ArrowRight } from 'lucide-react';
+import { Search, Home, Calendar, Users, Sparkles, SunMoon, Check, Copy, ArrowRight, X } from 'lucide-react';
 import { EVENTS, TEAM, COLORS } from '../data/gdgData';
 
 export default function CommandPalette() {
@@ -33,8 +33,14 @@ export default function CommandPalette() {
     useEffect(() => {
         if (open) {
             setQuery('');
+            document.body.style.overflow = 'hidden';
             setTimeout(() => inputRef.current?.focus(), 50);
+        } else {
+            document.body.style.overflow = '';
         }
+        return () => {
+            document.body.style.overflow = '';
+        };
     }, [open]);
 
     const toggleTheme = () => {
@@ -84,7 +90,7 @@ export default function CommandPalette() {
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-900/60 backdrop-blur-xs"
+            className="fixed inset-0 z-50 flex items-start justify-center pt-4 sm:pt-24 px-3 sm:px-4 bg-slate-900/60 backdrop-blur-xs"
             onClick={() => setOpen(false)}
         >
             <div
@@ -94,19 +100,31 @@ export default function CommandPalette() {
                 onClick={(e) => e.stopPropagation()}
                 className="pop w-full max-w-lg overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl"
             >
-                <div className="flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 px-4 py-3.5">
-                    <Search className="w-4 h-4 text-slate-400" />
+                <div className="flex items-center gap-2.5 border-b border-slate-200 dark:border-slate-800 px-3.5 sm:px-4 py-2.5 sm:py-3.5">
+                    <Search className="w-4 h-4 text-slate-400 shrink-0" />
                     <input
                         ref={inputRef}
+                        type="search"
+                        enterKeyHint="search"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         placeholder="Search events, team leads, or commands..."
-                        className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
+                        className="w-full bg-transparent text-base sm:text-sm outline-none placeholder:text-slate-400"
                     />
-                    <kbd className="rounded bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-[11px] text-slate-500">ESC</kbd>
+                    <kbd className="hidden sm:inline-block rounded bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-[11px] text-slate-500 shrink-0">
+                        ESC
+                    </kbd>
+                    <button
+                        type="button"
+                        onClick={() => setOpen(false)}
+                        aria-label="Close search"
+                        className="sm:hidden min-h-[40px] min-w-[40px] flex items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 shrink-0"
+                    >
+                        <X className="w-5 h-5" />
+                    </button>
                 </div>
 
-                <div className="max-h-80 overflow-y-auto p-2">
+                <div className="max-h-[60vh] sm:max-h-80 overflow-y-auto overscroll-contain p-2">
                     {filtered.length === 0 ? (
                         <p className="py-8 text-center text-sm text-slate-500">No matching commands found.</p>
                     ) : (
@@ -115,18 +133,19 @@ export default function CommandPalette() {
                             return (
                                 <button
                                     key={item.id}
+                                    type="button"
                                     onClick={() => {
                                         item.run();
                                         if (item.id !== 'copy') setOpen(false);
                                     }}
-                                    className="w-full flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-left text-sm transition hover:bg-slate-100 dark:hover:bg-slate-800/80"
+                                    className="w-full min-h-[48px] flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-left text-sm transition active:scale-[0.99] hover:bg-slate-100 dark:hover:bg-slate-800/80"
                                 >
                                     <div className="flex items-center gap-3 min-w-0">
                                         <span
-                                            className="w-7 h-7 rounded-lg flex items-center justify-center text-white shrink-0"
+                                            className="w-8 h-8 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-white shrink-0"
                                             style={{ background: item.color }}
                                         >
-                                            <IconComp className="w-3.5 h-3.5" />
+                                            <IconComp className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
                                         </span>
                                         <div className="truncate">
                                             <div className="font-medium truncate">{item.label}</div>

@@ -17,7 +17,10 @@
 }
 
 html {
-  scroll-padding-top: env(safe-area-inset-top, 0px);
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(7.5rem + env(safe-area-inset-top, 0px));
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -25,6 +28,16 @@ body {
   background-image: radial-gradient(var(--dot) 1px, transparent 1px);
   background-size: 22px 22px;
   font-family: var(--font-space-grotesk), 'Space Grotesk', system-ui, sans-serif;
+  overflow-x: clip;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
 }
 
 @keyframes fl {
@@ -60,6 +73,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
 
   .fl,
   .pop {
