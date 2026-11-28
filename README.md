@@ -1,43 +1,42 @@
-# GDG on Campus RVCE — Official Website
+# GDG on Campus RVCE — Interface Unlocked Edition
 
-A responsive, multi-page community web application built for **Google Developer Groups (GDG) on Campus — RV College of Engineering, Bengaluru**, created for the **Interface Unlocked** UI Challenge.
+A modern, interactive, mobile-first redesign of the **Google Developer Groups (GDG) on Campus RVCE** platform, built for the **Interface Unlocked** UI Design Challenge.
 
-🔗 **Live Demo:** https://gdg-rvce-website.vercel.app
-
----
-
-## ✨ Features
-
-- **Multi-Page Navigation:** Clean routing across **Home**, **Events**, and **Team** pages built with the Next.js App Router.
-- **Interactive Event Modals:** Clickable event cards with detailed session breakdowns, keyboard (`Esc`) support, and accessible backdrop dismissal.
-- **Light & Dark Theme Support:** Seamless theme switching across all routes and components.
-- **Google Developer Brand System:** Custom geometric hero visuals, Google-inspired color tokens, and **Space Grotesk** typography via `next/font/google`.
-- **Responsive Design:** Mobile-first layouts engineered for desktop, tablet, and mobile viewports.
+- **Live Website:** [https://gdg-rvce-website.vercel.app](https://gdg-rvce-website.vercel.app)
+- **Demo Walkthrough Video:** [Watch the Demo Video](<YOUR_GOOGLE_DRIVE_VIDEO_LINK>)
+- **GitHub Repository:** [https://github.com/adithyamahesh944-pixel/gdg-rvce-website](https://github.com/adithyamahesh944-pixel/gdg-rvce-website)
 
 ---
 
-## 🛠️ Tech Stack
+## Key Features
 
-- **Framework:** Next.js (App Router)
-- **UI Library:** React
-- **Styling:** Tailwind CSS & CSS Custom Properties
-- **Typography:** Google Fonts (`Space Grotesk`)
-- **Deployment & CI/CD:** GitHub + Vercel
+- **Interactive Hero & Brand Motion:** Cursor-reactive geometric shapes inspired by the four Google brand colors paired with clean Space Grotesk and Inter typography.
+- **Persistent Light & Dark Mode:** Instant theme switching from the navbar with `localStorage` persistence and dynamic OpenGraph social preview cards (`/opengraph-image`).
+- **Keyboard-First Command Palette (`Ctrl + K` / `Cmd + K`):** Global quick-search modal to jump directly to routes, events, and community verticals.
+- **Event Discovery & Google Calendar Sync (`/events`):** Category filtering across Hackathons, Study Jams, and Workshops, detailed event modals (adapting to bottom-sheet drawers on mobile), and one-click **Add to Google Calendar** export.
+- **Interactive 3D Builder Pass:** Live customizable developer badge generator with name input, track selection (*Web & Next.js*, *AI & ML*, *Cloud & DevOps*, *Android & Flutter*), 3D mouse/touch perspective tilt, and instant high-resolution PNG download.
+- **Mobile-First Experience (`/team` & Custom 404):** 44px+ accessible touch targets, swipeable horizontal filter chips on the Team directory, and a custom GDG RVCE 404 recovery screen.
 
 ---
 
-## 📁 Project Structure
+## Tech Stack
 
-```text
-src/
-├── app/
-│   ├── events/page.js      # Events showcase & interactive modal triggers
-│   ├── team/page.js        # Core team & community verticals directory
-│   ├── globals.css         # Design tokens, Tailwind layers & theme variables
-│   ├── layout.jsx          # Root layout, metadata & global Navbar/Footer
-│   └── page.js             # Landing page with hero, stats & highlights
-├── components/
-│   ├── Footer.jsx          # Global footer with community links
-│   └── Navbar.jsx          # Responsive pill navigation & theme toggle
-└── data/
-    └── gdgData.js          # Structured event & team member data
+- **Framework:** Next.js 13 (App Router)
+- **Language:** TypeScript / React
+- **Styling:** Tailwind CSS
+- **Deployment:** Vercel
+
+---
+
+## Local Development
+
+```bash
+# 1. Clone the repository
+git clone [https://github.com/adithyamahesh944-pixel/gdg-rvce-website.git](https://github.com/adithyamahesh944-pixel/gdg-rvce-website.git)
+cd gdg-rvce-website
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the development server
+npm run dev
