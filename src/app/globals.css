@@ -5,6 +5,7 @@
 :root {
   --bg: #fafafa;
   --dot: #d3d8e0;
+  color-scheme: light;
   box-sizing: border-box;
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -40,6 +41,15 @@ textarea {
   touch-action: manipulation;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 @keyframes fl {
 
   0%,
@@ -73,7 +83,6 @@ textarea {
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   html {
     scroll-behavior: auto;
   }

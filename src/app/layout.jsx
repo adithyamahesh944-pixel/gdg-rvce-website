@@ -11,8 +11,28 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata = {
-  title: 'GDG on Campus RVCE',
-  description: 'A student-run developer community in Bengaluru. Study Jams, hackathons and sessions with people who like building things.',
+  metadataBase: new URL('https://gdg-rvce-website.vercel.app'),
+  title: {
+    default: 'GDG on Campus RVCE',
+    template: '%s | GDG on Campus RVCE',
+  },
+  description:
+    'A student-run developer community in Bengaluru. Study Jams, hackathons and sessions with people who like building things.',
+  openGraph: {
+    title: 'GDG on Campus RVCE',
+    description:
+      'A student-run developer community in Bengaluru. Study Jams, hackathons, interactive 3D Builder Pass & sessions with people who like building things.',
+    url: 'https://gdg-rvce-website.vercel.app',
+    siteName: 'GDG on Campus RVCE',
+    locale: 'en_IN',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'GDG on Campus RVCE',
+    description:
+      'A student-run developer community in Bengaluru. Study Jams, hackathons, interactive 3D Builder Pass & sessions with people who like building things.',
+  },
 };
 
 export default function RootLayout({ children }) {

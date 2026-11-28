@@ -15,15 +15,26 @@ export default function Navbar() {
     setDark(initDark);
     document.documentElement.classList.toggle('dark', initDark);
 
-    const onExternalToggle = () => setDark((prev) => !prev);
+    const onExternalToggle = () => {
+      setDark((prev) => {
+        const next = !prev;
+        document.documentElement.classList.toggle('dark', next);
+        localStorage.setItem('theme', next ? 'dark' : 'light');
+        return next;
+      });
+    };
     window.addEventListener('gdg-toggle-theme', onExternalToggle);
     return () => window.removeEventListener('gdg-toggle-theme', onExternalToggle);
   }, []);
 
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', dark);
-    localStorage.setItem('theme', dark ? 'dark' : 'light');
-  }, [dark]);
+  const toggleTheme = () => {
+    setDark((prev) => {
+      const next = !prev;
+      document.documentElement.classList.toggle('dark', next);
+      localStorage.setItem('theme', next ? 'dark' : 'light');
+      return next;
+    });
+  };
 
   const navItems = [
     { href: '/', label: 'Home' },
@@ -55,8 +66,8 @@ export default function Navbar() {
                 href={item.href}
                 aria-current={active ? 'page' : undefined}
                 className={`flex-1 sm:flex-none min-h-[38px] flex items-center justify-center rounded-full px-4 sm:px-5 py-1.5 text-sm font-semibold transition active:scale-95 ${active
-                  ? 'bg-white dark:bg-slate-700 shadow'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    ? 'bg-white text-slate-900 dark:bg-slate-700 dark:text-white shadow'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
               >
                 {item.label}
@@ -81,9 +92,9 @@ export default function Navbar() {
 
           <button
             type="button"
-            onClick={() => setDark(!dark)}
+            onClick={toggleTheme}
             aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
-            className="min-h-[44px] min-w-[44px] sm:min-h-[38px] sm:min-w-[38px] flex items-center justify-center rounded-full border border-slate-300 dark:border-slate-700 transition active:scale-95 hover:rotate-12"
+            className="min-h-[44px] min-w-[44px] sm:min-h-[38px] sm:min-w-[38px] flex items-center justify-center rounded-full border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 text-slate-800 dark:text-slate-100 transition active:scale-95 hover:rotate-12"
           >
             {dark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
