@@ -3,7 +3,7 @@
 A modern, interactive, mobile-first redesign of the **Google Developer Groups (GDG) on Campus RVCE** platform, built for the **Interface Unlocked** UI Design Challenge.
 
 - **Live Website:** [https://gdg-rvce-website.vercel.app](https://gdg-rvce-website.vercel.app)
-- **Demo Walkthrough Video:** [Watch the Demo Video](<YOUR_GOOGLE_DRIVE_VIDEO_LINK>)
+- **Demo Walkthrough Video:** [Watch the Demo Video](https://drive.google.com/file/d/1FJE_eRaEB3EAcFgVOdMRp3IyOsk-06Rz/view?usp=drivesdk)
 - **GitHub Repository:** [https://github.com/adithyamahesh944-pixel/gdg-rvce-website](https://github.com/adithyamahesh944-pixel/gdg-rvce-website)
 
 ---
